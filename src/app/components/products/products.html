@@ -1,1 +1,21 @@
-<p>products works!</p>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+
+  <div class="col" *ngFor="let prd of products">
+    <div class="card h-100 shadow-sm">
+      <img [src]="prd.imgUrl" class="card-img-top" alt="{{ prd.name }}">
+      <div class="card-body">
+
+        <h5 class="card-title">{{ prd.name }}</h5>
+
+        <p class="card-text">Price : {{ prd.price }}</p>
+
+        <p class="card-text">Quantity : {{ prd.quantity }}</p>
+        <input type="number"/>
+        <button class="btn btn-success">buy</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- <img src="assets/21089.jpg" alt="image"> -->
