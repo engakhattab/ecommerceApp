@@ -1,7 +1,8 @@
 <h1>Total order price: {{totalOrderPrice}}</h1>
 <h2>Selected Category Id: {{selectedCategoryId}}</h2>
 <div class="mb-3">
-    <select class="form-select form-select-lg" name="" id="" [(ngModel)]="selectedCategoryId">
+    <select class="form-select form-select-lg" (change)="filterProducts()" [(ngModel)]="selectedCategoryId">
+        <option value="0">All Categories</option>
         <option *ngFor="let cat of categories" [value]="cat.id">{{cat.name}}</option>
     </select>
 </div>
@@ -9,36 +10,43 @@
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
     <!-- class binding : controller to view-->
-    <ng-container *ngFor="let prd of products; let i = index; trackBy: trackItem">
+    <!-- <ng-container *ngFor="let prd of products; let i = index; trackBy: trackItem"> -->
 
-        <div class="col" [class.d-none]="prd.catId != selectedCategoryId" *ngIf="prd.quantity !=0" [ngStyle]="{border:(prd.quantity==1) ?'1px solid red' : '1px solid green'}">
-            <div class="card h-100 shadow-sm">
-                <!-- Property Binding Example: controller to view -->
-                <img [src]="prd.imgUrl" class="card-img-top" alt="{{ prd.name }}">
-                <!-- <div class="card-body" [style.background-color]="(prd.quantity < 2) ? 'red' : 'white'"> -->
-                <div class="card-body" [ngClass]="(prd.quantity == 1) ? 'text-danger' : 'text-success'">
-                    <!-- Interpolation Example: controller to view -->
-                    <h5 class="card-title">{{i+1}}-{{ prd.name }}</h5>
+    @for (prd of filteredProducts; let i = $index; track prd.id) {
+    <div class="col">
+        <div class="card h-100 shadow-sm" appHighlightCard="gray" externalColor="pink">
+            <!-- Property Binding Example: controller to view -->
+            <img [src]="prd.imgUrl" class="card-img-top" alt="{{ prd.name }}">
+            <!-- <div class="card-body" [style.background-color]="(prd.quantity < 2) ? 'red' : 'white'"> -->
+            <div class="card-body" [ngClass]="(prd.quantity == 1) ? 'text-danger' : 'text-success'">
+                <!-- Interpolation Example: controller to view -->
+                <h5 class="card-title">{{i+1}}-{{ prd.name }}</h5>
 
-                    <p class="card-text">Price : {{ prd.price }}</p>
+                <p class="card-text">Price : {{ prd.price | currency:'EGP' }}</p>
 
-                    <!-- <p class="card-text" *ngIf="prd.quantity!=1;else lastItem" >Quantity : {{ prd.quantity }}</p>
+                <!-- <p class="card-text" *ngIf="prd.quantity!=1;else lastItem" >Quantity : {{ prd.quantity }}</p>
                     <ng-template #lastItem>
                         <p class="card-text">Quantity: Last Item</p>
                     </ng-template> -->
-                    <div [ngSwitch]="prd.quantity">
-                        <p *ngSwitchCase="1">Quantity: Last Item</p>
-                        <p *ngSwitchCase="2">Quantity: Last Two Item</p>
-                        <p *ngSwitchDefault="">Quantity: {{prd.quantity}}</p>
-                    </div>
-                    <!-- Event Binding Example: view to controller -->
-
-                    <input type="number" #countInput />
-                    <button class="btn btn-success" (click)="buy(countInput.value,prd.price)">buy</button>
+                <div [ngSwitch]="prd.quantity">
+                    <p *ngSwitchCase="1">Quantity: Last Item</p>
+                    <p *ngSwitchCase="2">Quantity: Last Two Item</p>
+                    <p *ngSwitchDefault="">Quantity: {{prd.quantity}}</p>
                 </div>
+                <!-- Event Binding Example: view to controller -->
+
+                <input type="number" #countInput />
+                <button class="btn btn-success" (click)="buy(countInput.value,prd.price)">buy</button>
+                <!--           </div -->>
             </div>
         </div>
-    </ng-container>
+    </div>
+    }
+
+
+    <!-- </ng-container> -->
 
 </div>
 <!-- <img src="assets/21089.jpg" alt="image"> -->
+ <h2>{{mydate | date : 'shortDate'}}</h2>
+ <h3>{{num | square:3}}</h3>
